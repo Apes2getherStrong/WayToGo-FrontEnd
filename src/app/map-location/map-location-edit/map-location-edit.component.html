@@ -17,7 +17,7 @@
             <button
               type="submit"
               class="btn btn-success"
-              [disabled]="mapLocationForm.invalid">Save
+              [disabled]="mapLocationForm.invalid" (click)="uploadAudio()">Save
             </button>
             <button
               type="button"
@@ -83,7 +83,43 @@
             <app-point-select-map></app-point-select-map>
           </div>
         </div>
+        <h2 class="audio-header">Audios</h2>
+        <div *ngIf="editMode" class="form-group">
+          <label for="audioFile">Add Audio File:</label>
+          <input type="file" id="audioFile" (change)="onAudioFileSelected($event)" class="form-control">
+        </div>
+        <div *ngIf="editMode"  class="form-group">
+          <label for="name">Audio Name</label>
+          <input
+            type="text"
+            id="audio_name"
+            formControlName="audioName"
+            class="form-control">
+        </div>
+        <div *ngIf="editMode" class="form-group">
+          <label for="description">Audio Description</label>
+          <textarea
+            id="Audio_description"
+            formControlName="audioDescription"
+            class="form-control"
+            rows="6"></textarea>
+        </div>
       </form>
+
+      <div class="audio-list">
+        <div *ngFor="let audioItem of audioData" class="audio-item">
+          <div class="audio-controls">
+            <p>{{ audioItem.audio.name }}</p>
+            <audio class="audio-file" controls>
+              <source [src]="audioItem.url" type="audio/mpeg" />
+              Your browser does not support the audio element.
+            </audio>
+          </div>
+          <div class="edit-button">
+            <button type="button" class="btn btn-primary" [routerLink]="['/audio', audioItem.audio.id, 'edit']">Edit</button>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </div>
