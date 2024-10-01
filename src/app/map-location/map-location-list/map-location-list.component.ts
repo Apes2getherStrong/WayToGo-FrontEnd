@@ -40,6 +40,7 @@ export class MapLocationListComponent implements OnInit, OnChanges {
   @Input() route: Route;
   mapLocations: MapLocation[];
   activeMapLocationId: string;
+  hasNoMapLocations = false;
 
   mobileVersion: boolean;
 
@@ -129,17 +130,20 @@ export class MapLocationListComponent implements OnInit, OnChanges {
     this.isError = false;
 
     this.mapLocationService.getMapLocationsByRoute(0, maxPageSize, this.route.id)
-      .subscribe(
-        response => {
+      .subscribe({
+        next: (response) => {
           this.mapLocations = response.content;
+          if (this.mapLocations.length === 0) {
+            this.hasNoMapLocations = true;
+          }
           this.mapService.routeSelectedEventEmitter.emit(this.mapLocations);
           this.isLoading = false;
         },
-        error => {
+        error: (error) => {
           this.isError = true;
           this.isLoading = false;
           console.error('Error fetching map locations:', error);
         }
-      );
+      });
   }
 }

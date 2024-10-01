@@ -45,6 +45,7 @@ export class MapLocationEditComponent implements OnInit {
   returnUrl: string | null = null;
   isLoadingAudio = false;
   isErrorAudio = false;
+  noAudioAvailable = false;
 
   constructor(private activatedRoute: ActivatedRoute,
               private router: Router,
@@ -311,6 +312,10 @@ export class MapLocationEditComponent implements OnInit {
 
       this.audioService.getAudiosByMapLocation(this.mapLocation, 0, maxPageSize).subscribe(response => {
         this.audiosEntities = response.content;
+
+        if (this.audiosEntities.length === 0) {
+          this.noAudioAvailable = true;
+        }
 
         const audioPromises = this.audiosEntities.map((audio, index) => {
           return this.audioService.getAudioFileByAudio(audio).toPromise()

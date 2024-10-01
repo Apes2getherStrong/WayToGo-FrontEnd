@@ -8,6 +8,10 @@
     <p>Error loading map locations. Please try again later.</p>
   </div>
 
+  <div *ngIf="hasNoMapLocations && !isLoading && !isError" class="alert alert-info">
+    <p>No map locations available for this route.</p>
+  </div>
+
   <div *ngFor="let mapLocation of mapLocations" style="margin-bottom: 5px">
 
     <li (click)="onMapLocationSelected(mapLocation)"
