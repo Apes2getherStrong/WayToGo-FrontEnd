@@ -125,21 +125,6 @@ export class MapComponent implements OnInit,AfterViewInit ,OnDestroy {
 
   }
 
-  setMapLocationsAndMarkers(mapLocations: Page<MapLocation>){
-    if (mapLocations && mapLocations.content) {
-      mapLocations.content.forEach((mapLocation) => {
-        this.mapLocations.push(mapLocation);
-
-        const markerPosition: google.maps.LatLngLiteral = {
-          lat: mapLocation.coordinates.coordinates[0],
-          lng: mapLocation.coordinates.coordinates[1]
-        };
-        this.markerPositions.push(markerPosition);
-      });
-    } else {
-      console.warn('No locations.');
-    }
-  }
 
   ngAfterViewInit(): void {
     if (!this.map && !this.map.googleMap) {
@@ -239,25 +224,6 @@ export class MapComponent implements OnInit,AfterViewInit ,OnDestroy {
     } else {
       console.error('Geolocation is not supported by this browser.');
     }
-  }
-  getCurrentLocationPromise(): Promise<google.maps.LatLngLiteral | null> {
-    return new Promise((resolve, reject) => {
-      if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(position => {
-          const currentLocation: google.maps.LatLngLiteral = {
-            lat: position.coords.latitude,
-            lng: position.coords.longitude
-          };
-          resolve(currentLocation);
-        }, error => {
-          console.error('Error getting location: ', error);
-          reject(error);
-        });
-      } else {
-        console.error('Geolocation is not supported by this browser.');
-        reject('Geolocation not supported');
-      }
-    });
   }
 
   updateUserMarker(position: google.maps.LatLngLiteral) {

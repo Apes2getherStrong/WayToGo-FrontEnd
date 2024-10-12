@@ -1,4 +1,4 @@
-import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
+import {AfterViewInit, Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {SidePanelService} from "../shared/side-panel.service";
 import {MapService} from "../shared/map/map.service";
 import {ScreenSizeService} from "../shared/screen-size.service";
@@ -22,65 +22,35 @@ import {MapLocationService} from "../map-location/map-location.service";
   templateUrl: './vicinity.component.html',
   styleUrl: './vicinity.component.css'
 })
-export class VicinityComponent implements  OnInit{
-  toggleSidePanel = true;
-  panelButtonContent: string = "";
-
-  @ViewChild(MapComponent) mapComponent!: MapComponent;
-
-  mobileVersion: boolean;
-
+export class VicinityComponent{
   range: number = 30;
 
-  constructor(private sidePanelService: SidePanelService, private mapService: MapService, private screenSizeService: ScreenSizeService,private mapLocationService: MapLocationService) {
-
+  constructor(private mapService: MapService, private mapLocationService: MapLocationService) {
   }
+
   onSubmit() {
     this.mapService.clearAllMarkers.emit()
-    this.mapComponent.getCurrentLocationPromise().then(point => {
-      if (point) {
-        const { lat, lng } = point;
-        this.mapLocationService.getMapLocationsByRange(lat, lng, this.range * 1000).subscribe(
+
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(position => {
+        const center = {
+          lat: position.coords.latitude,
+          lng: position.coords.longitude
+        };
+        this.mapLocationService.getMapLocationsByRange(center.lat, center.lng, this.range * 1000).subscribe(
           locations => {
-            this.mapComponent.setMapLocationsAndMarkers(locations)
+            this.mapService.routeSelectedEventEmitter.emit(locations.content);
+
           }
-        );
-      } else {
-        console.error("No coordinates");
-      }
-    }).catch(error => {
-      console.error("Error: ", error);
-    });
-  }
-
-  onToggleSidePanel() {
-    this.toggleSidePanel = !this.toggleSidePanel;
-    this.panelButtonContent = this.toggleSidePanel ? "" : "Vicnity";
-
-    if(this.mobileVersion) {
-      this.mapService.closeInfoWindow.emit();
+        )
+      }, error => {
+        console.error('Error getting location: ', error);
+      });
+    } else {
+      console.error('Geolocation is not supported by this browser.');
     }
+
   }
 
-  ngOnInit(): void {
 
-    this.screenSizeService.isMobileVersion$.subscribe(isMobileVersion => {
-      this.mobileVersion = isMobileVersion;
-    });
-
-    this.toggleSidePanel = true;
-    this.sidePanelService.togglePanelEventEmitter.subscribe(toggle => {
-
-      this.toggleSidePanel = toggle;
-      this.panelButtonContent = toggle ? "" : "Vicnity";
-
-      if(this.mobileVersion) {
-        this.mapService.closeInfoWindow.emit();
-      }
-    })
-    const point =  this.mapComponent.getCurrentLocationPromise()
-  }
-  // ngOnDestroy() {
-  //   this.mapService.clearAllMarkers.emit();
-  // }
 }

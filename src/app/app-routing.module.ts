@@ -72,20 +72,14 @@ const routes: Routes = [
         ]
       },
       {
+        path: 'vicinity',
+        component: VicinityComponent
+      },
+      {
         path: ':id',
         component: RouteDetailComponent
-      }
+      },
     ]
-  },
-  // {
-  //   path: 'users/:id/routes',
-  //   canActivate: [AuthGuardService],
-  //   component: UserRoutesComponent,
-  // },
-  {
-    path: 'vicinity',
-    canActivate: [AuthGuardService],
-    component: VicinityComponent
   },
   {
     path: 'yourRoutes',
