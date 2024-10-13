@@ -1,0 +1,20 @@
+<div class="container mt-4">
+  <form (ngSubmit)="onSubmit()" class="bg-light p-4 rounded shadow">
+    <h2 class="text-center mb-4">Find Your Route</h2>
+    <div class="form-group">
+      <label for="range" class="form-label">Select Range:</label>
+      <input
+        type="range"
+        id="range"
+        name="range"
+        class="form-range"
+        [(ngModel)]="range"
+        required
+        min="0"
+        max="100"
+      />
+      <p class="text-center">Selected Range: <strong>{{ range }} km</strong></p>
+    </div>
+    <button type="submit" class="btn user-route-button w-100">Find</button>
+  </form>
+</div>

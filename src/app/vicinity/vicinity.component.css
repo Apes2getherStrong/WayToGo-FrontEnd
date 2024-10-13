@@ -1,0 +1,13 @@
+.user-route-button {
+  background-color: white;
+  height: 50px;
+  border: #046169 2px solid;
+  color: #046169;
+  font-weight: 700;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+.user-route-button:hover {
+  background-color: #046169;
+  color: white;
+}
