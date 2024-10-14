@@ -48,6 +48,7 @@ export class MapLocationEditComponent implements OnInit, CanComponentDeactivate 
   returnUrl: string | null = null;
   private submittingChangesInProcess: boolean = false;
 
+
   constructor(private activatedRoute: ActivatedRoute,
               private router: Router,
               private mapService: PointSelectMapService,
