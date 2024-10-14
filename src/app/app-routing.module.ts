@@ -12,6 +12,7 @@ import {MapLocationEditComponent} from "./map-location/map-location-edit/map-loc
 import {AuthGuardService} from "./auth/auth-guard.service";
 import {CanEditService} from "./auth/can-edit.service";
 import {CanDeactivateGuard} from "./shared/guards/can-deactivate-guard.service";
+import {VicinityComponent} from "./vicinity/vicinity.component";
 
 
 
@@ -71,16 +72,15 @@ const routes: Routes = [
         ]
       },
       {
+        path: 'vicinity',
+        component: VicinityComponent
+      },
+      {
         path: ':id',
         component: RouteDetailComponent
-      }
+      },
     ]
   },
-  // {
-  //   path: 'users/:id/routes',
-  //   canActivate: [AuthGuardService],
-  //   component: UserRoutesComponent,
-  // },
   {
     path: 'yourRoutes',
     canActivate: [AuthGuardService],

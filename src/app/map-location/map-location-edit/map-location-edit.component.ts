@@ -46,6 +46,8 @@ export class MapLocationEditComponent implements OnInit, CanComponentDeactivate 
   selectedAudioFile: File | null = null;
   temporaryAudioData: { audio: Audio, url: SafeUrl,file: File }[] = [];
   returnUrl: string | null = null;
+  isLoadingAudio = false;
+  isErrorAudio = false;
   private submittingChangesInProcess: boolean = false;
 
 
@@ -310,8 +312,9 @@ export class MapLocationEditComponent implements OnInit, CanComponentDeactivate 
     });
   }
 
-  private fetchMapLocationAudio() {
-
+  fetchMapLocationAudio() {
+    this.isLoadingAudio = true;
+    this.isErrorAudio = false;
 
     this.mapLocationService.getMapLocationsById(this.mapLocationId).subscribe(response => {
       this.mapLocation = response;
@@ -339,7 +342,11 @@ export class MapLocationEditComponent implements OnInit, CanComponentDeactivate 
         });
 
         Promise.all(audioPromises).then(() => {
+          this.isLoadingAudio = false;
         });
+      }, error => {
+        this.isErrorAudio = true;
+        this.isLoadingAudio = false;
       });
     });
   }

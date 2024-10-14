@@ -10,6 +10,7 @@ import {
 } from "../../map-location/map-location-info-window/map-location-info-window.component";
 import {SidePanelService} from "../side-panel.service";
 import {ScreenSizeService} from "../screen-size.service";
+import {Page} from "../page.model";
 
 //google maps api documentation
 //https://developers.google.com/maps/documentation/javascript
@@ -135,10 +136,6 @@ export class MapComponent implements OnInit,AfterViewInit ,OnDestroy {
   }
 
 
-
-
-
-
   calculateRoute(destination: google.maps.LatLngLiteral) {
     if (this.directionsService && this.map && this.map.googleMap) {
       const start = { lat: this.userMarker.getPosition().lat(), lng: this.userMarker.getPosition().lng() };
@@ -258,7 +255,7 @@ export class MapComponent implements OnInit,AfterViewInit ,OnDestroy {
     this.zoom = 17;
   }
 
-  onMapClick($event: google.maps.MapMouseEvent | google.maps.IconMouseEvent) {
+  onMapClick(event: google.maps.MapMouseEvent | google.maps.IconMouseEvent) {
     if(this.infoWindow != undefined) {
       this.infoWindow.close();
     }
