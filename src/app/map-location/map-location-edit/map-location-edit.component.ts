@@ -50,7 +50,6 @@ export class MapLocationEditComponent implements OnInit, CanComponentDeactivate 
   isErrorAudio = false;
   private submittingChangesInProcess: boolean = false;
 
-
   constructor(private activatedRoute: ActivatedRoute,
               private router: Router,
               private mapService: PointSelectMapService,
