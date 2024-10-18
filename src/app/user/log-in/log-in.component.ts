@@ -4,12 +4,14 @@ import {FormsModule} from "@angular/forms";
 import {AuthService} from "../../auth/auth.service";
 import {SnackbarService} from "../../shared/snackbar/snackbar.service";
 import {SnackbarType} from "../../shared/snackbar/snackbar-type";
+import {BackgroundFluidDirective} from "../../shared/directives/background-fluid.directive";
 
 @Component({
   selector: 'app-log-in',
   standalone: true,
   imports: [
-    FormsModule
+    FormsModule,
+    BackgroundFluidDirective
   ],
   templateUrl: './log-in.component.html',
   styleUrl: './log-in.component.css'
