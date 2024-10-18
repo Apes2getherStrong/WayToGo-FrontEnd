@@ -46,10 +46,10 @@
         </form>
       </div>
 
-      <div class="card mb-4" style="margin-top: 40px;">
+      <div *ngIf="editMode" class="card mb-4" style="margin-top: 40px;">
         <div class="card-header d-flex justify-content-between align-items-center">
           <h2 class="card-title">Points</h2>
-          <button *ngIf="editMode" class="btn btn-primary" (click)="onAddPoint()">Add Point</button>
+          <button class="btn btn-primary" (click)="onAddPoint()">Add Point</button>
         </div>
         <div class="card-body">
           <app-map-location-list *ngIf="editMode" [route]="route"></app-map-location-list>
