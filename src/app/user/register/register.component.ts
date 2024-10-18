@@ -4,12 +4,14 @@ import {FormsModule} from "@angular/forms";
 import {AuthService} from "../../auth/auth.service";
 import {SnackbarService} from "../../shared/snackbar/snackbar.service";
 import {SnackbarType} from "../../shared/snackbar/snackbar-type";
+import {BackgroundFluidDirective} from "../../shared/directives/background-fluid.directive";
 
 @Component({
   selector: 'app-register',
   standalone: true,
   imports: [
-    FormsModule
+    FormsModule,
+    BackgroundFluidDirective
   ],
   templateUrl: './register.component.html',
   styleUrl: './register.component.css'
