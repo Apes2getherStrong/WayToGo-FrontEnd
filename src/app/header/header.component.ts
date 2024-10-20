@@ -1,7 +1,7 @@
 import {Component, EventEmitter, HostListener, OnInit, Output} from '@angular/core';
 import {CommonModule} from "@angular/common";
 import {Router, RouterModule} from "@angular/router";
-import {DropdownDirective} from "../shared/dropdown.directive";
+import {DropdownDirective} from "../shared/directives/dropdown.directive";
 import {AuthService} from "../auth/auth.service";
 import {ScreenSizeService} from "../shared/screen-size.service";
 

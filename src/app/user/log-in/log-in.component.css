@@ -51,35 +51,3 @@ button:disabled {
 }
 
 
-
-
-
-
-
-
-svg {
-  position: fixed;
-  background-color: #89ecda;
-  top: 7%;
-  left: 0;
-  width: 100%;
-  height: 93%;
-  z-index: -1;
-}
-
-
-a {
-  text-decoration: none;
-  color: black;
-  margin-left: 1em;
-}
-a:hover {
-  text-decoration: underline;
-}
-a img.icon {
-  display: inline-block;
-  height: 1em;
-  margin: 0 0 -0.1em 0.3em;
-}
-
-
