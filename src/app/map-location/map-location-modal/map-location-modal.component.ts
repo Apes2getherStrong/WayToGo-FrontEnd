@@ -31,7 +31,7 @@ export class MapLocationModalComponent implements OnInit {
   mobileVersion: boolean;
   isError: boolean;
   isLoading: boolean;
-
+  noAudioAvailable: boolean;
   constructor(
               private mapLocationService: MapLocationService,
               private audioService: AudioService,
@@ -74,7 +74,9 @@ export class MapLocationModalComponent implements OnInit {
     this.audioService.getAudiosByMapLocation(this.mapLocation, 0, maxPageSize).subscribe({
       next: (response) => {
         this.audiosEntities = response.content;
-
+        if (this.audiosEntities.length === 0) {
+          this.noAudioAvailable = true;
+        }
         const audioPromises = this.audiosEntities.map((audio, index) => {
           return this.audioService.getAudioFileByAudio(audio).toPromise()
             .then((audioBlob) => {
