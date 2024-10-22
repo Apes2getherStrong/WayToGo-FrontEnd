@@ -18,6 +18,9 @@ import {
   MapLocationAddToYourRouteModalComponent
 } from "../map-location-add-to-your-route-modal/map-location-add-to-your-route-modal.component";
 import {ConfirmationDialogService} from "../../shared/confirmation-dialog/confirmation-dialog.service";
+import {SnackbarType} from "../../shared/snackbar/snackbar-type";
+import {SnackbarService} from "../../shared/snackbar/snackbar.service";
+import {AudioService} from "../../audio/audio.service";
 
 @Component({
   selector: 'app-map-location-list',
@@ -59,7 +62,9 @@ export class MapLocationListComponent implements OnInit, OnChanges {
               private modalService: ModalService,
               private activatedRoute: ActivatedRoute,
               private routeService: RouteService,
-              private confirmationDialogService: ConfirmationDialogService) {
+              private confirmationDialogService: ConfirmationDialogService,
+              private snackbarService: SnackbarService,
+              private audioService:AudioService,) {
   }
 
 
@@ -120,8 +125,23 @@ export class MapLocationListComponent implements OnInit, OnChanges {
       )
       .subscribe((confirmed: boolean) => {
         if (confirmed) {
-          this.mapLocationService.deleteMapLocationFromRoute(mapLocationId, this.route.id).subscribe(() => {
-            this.fetchMapLocations();
+          this.mapLocationService.getMapLocationsById(mapLocationId).subscribe(mapLocation => {
+            this.audioService.getAudiosByMapLocation(mapLocation, 0, maxPageSize).subscribe({
+              next: (response) => {
+                const audios = response.content;
+                const deleteAudioPromises = audios.map(audio =>
+                  this.audioService.deleteAudio(audio.id).toPromise()
+                );
+                Promise.all(deleteAudioPromises)
+                  .then(() => {
+                    this.mapLocationService.deleteMapLocationFromRoute(mapLocationId, this.route.id)
+                      .subscribe(() => {
+                        this.snackbarService.displaySnackbar('Map location was deleted successfully', SnackbarType.DARK);
+                        this.fetchMapLocations();
+                      });
+                  })
+              },
+            });
           });
         }
       });

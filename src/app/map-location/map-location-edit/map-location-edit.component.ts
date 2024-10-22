@@ -14,6 +14,8 @@ import {maxPageSize} from "../../shared/http.config";
 import {CanComponentDeactivate} from "../../shared/guards/can-deactivate-guard.service";
 import {CanDeactivateFormGuardService} from "../../shared/guards/can-deactivate-form-guard.service";
 import {ConfirmationDialogService} from "../../shared/confirmation-dialog/confirmation-dialog.service";
+import {SnackbarType} from "../../shared/snackbar/snackbar-type";
+import {SnackbarService} from "../../shared/snackbar/snackbar.service";
 
 
 @Component({
@@ -58,6 +60,7 @@ export class MapLocationEditComponent implements OnInit, CanComponentDeactivate 
               private audioService: AudioService,
               private sanitizer: DomSanitizer,
               private canDeactivateFormGuardService: CanDeactivateFormGuardService,
+              private snackbarService: SnackbarService,
               private confirmationDialogService: ConfirmationDialogService,) {
   }
 
@@ -90,9 +93,9 @@ export class MapLocationEditComponent implements OnInit, CanComponentDeactivate 
           this.initForm2();
         }
       )
+      this.fetchMapLocationAudio();
     }
 
-    this.fetchMapLocationAudio();
 
     this.mapService.markerSelectedEmitter.subscribe((position: { lat: number, lng: number }) => {
       this.mapLocationForm.patchValue({
@@ -211,6 +214,7 @@ export class MapLocationEditComponent implements OnInit, CanComponentDeactivate 
                 this.goBack();
               });
           }
+          this.snackbarService.displaySnackbar('Map location was added successfully',SnackbarType.DARK);
           this.uploadTemporaryAudios(response);
         });
     }
@@ -231,7 +235,7 @@ export class MapLocationEditComponent implements OnInit, CanComponentDeactivate 
           id: null,
           name: this.audioForm.get('audioName').value,
           user: null,
-          mapLocation: null,  // MapLocation jeszcze nie istnieje
+          mapLocation: null,
           audioFilename: this.selectedAudioFile.name
         };
 
