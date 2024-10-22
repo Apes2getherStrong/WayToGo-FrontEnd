@@ -125,23 +125,8 @@ export class MapLocationListComponent implements OnInit, OnChanges {
       )
       .subscribe((confirmed: boolean) => {
         if (confirmed) {
-          this.mapLocationService.getMapLocationsById(mapLocationId).subscribe(mapLocation => {
-            this.audioService.getAudiosByMapLocation(mapLocation, 0, maxPageSize).subscribe({
-              next: (response) => {
-                const audios = response.content;
-                const deleteAudioPromises = audios.map(audio =>
-                  this.audioService.deleteAudio(audio.id).toPromise()
-                );
-                Promise.all(deleteAudioPromises)
-                  .then(() => {
-                    this.mapLocationService.deleteMapLocationFromRoute(mapLocationId, this.route.id)
-                      .subscribe(() => {
-                        this.snackbarService.displaySnackbar('Map location was deleted successfully', SnackbarType.DARK);
-                        this.fetchMapLocations();
-                      });
-                  })
-              },
-            });
+          this.mapLocationService.deleteMapLocationFromRoute(mapLocationId, this.route.id).subscribe(() => {
+            this.fetchMapLocations();
           });
         }
       });
