@@ -10,32 +10,10 @@
       <p class="card-text">{{mapLocation.description}}</p>
       <a (click)="onCalculateRoute()" class="btn btn-primary" style="background-color: #10898d"><i class="fa fa-location-arrow"></i> Navigate</a>
     </div>
-    <ul class="list-group list-group-flush">
-      <div *ngIf="isLoading" class="loading-indicator">
-        <p>Loading audio files, please wait...</p>
-      </div>
-      <div *ngIf="isError" class="error-indicator">
-        <p>Error loading audio files. Please try again later.</p>
-      </div>
-      <div *ngIf="noAudioAvailable && !isLoading" class="no-audio-indicator d-flex flex-column align-items-center justify-content-center">
-        <i class="fa fa-volume-mute fa-3x mb-3 text-muted"></i>
-        <p class="text-muted">No audios found</p>
-      </div>
-      <li class="list-group-item" *ngFor="let audioItem of audioData">
-        <div class="card">
-          <div class="card-header d-flex align-items-center">
-            {{ audioItem.audio.name }}
-          </div>
-          <div class="card-body d-flex justify-content-center">
-            <div class="col-12 col-md-6">
-              <audio class="w-100" controls>
-                <source [src]="audioItem.url" type="audio/mpeg"/>
-                Your browser does not support the audio element.
-              </audio>
-            </div>
-          </div>
-        </div>
-      </li>
-    </ul>
+    <app-audio-list
+      [audioData]="audioData"
+      [isLoading]="isLoading"
+      [isError]="isError"
+    ></app-audio-list>
   </div>
 </div>
