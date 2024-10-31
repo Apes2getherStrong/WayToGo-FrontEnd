@@ -8,11 +8,14 @@ import {AudioService} from "../../audio/audio.service";
 import {ScreenSizeService} from "../../shared/screen-size.service";
 import {maxPageSize} from "../../shared/http.config";
 import {MapService} from "../../shared/map/map.service";
+import {AudioListComponent} from "../../audio/audio-list/audio-list.component";
+
 
 @Component({
   selector: 'app-map-location-modal',
   standalone: true,
   imports: [
+    AudioListComponent,
     NgForOf,
     NgIf,
   ],
@@ -25,13 +28,10 @@ export class MapLocationModalComponent implements OnInit {
 
 
   mapLocationImageUrl: SafeUrl;
-
-  audiosEntities: Audio[] = [];
   audioData: { audio: Audio, url: SafeUrl }[] = [];
   mobileVersion: boolean;
   isError: boolean;
   isLoading: boolean;
-  noAudioAvailable: boolean;
   constructor(
               private mapLocationService: MapLocationService,
               private audioService: AudioService,
@@ -69,15 +69,9 @@ export class MapLocationModalComponent implements OnInit {
   private fetchMapLocationAudio() {
     this.isLoading= true;
     this.isError = false;
-    this.audiosEntities = [];
-    this.audioData = [];
     this.audioService.getAudiosByMapLocation(this.mapLocation, 0, maxPageSize).subscribe({
       next: (response) => {
-        this.audiosEntities = response.content;
-        if (this.audiosEntities.length === 0) {
-          this.noAudioAvailable = true;
-        }
-        const audioPromises = this.audiosEntities.map((audio, index) => {
+        const audioPromises = response.content.map((audio, index) => {
           return this.audioService.getAudioFileByAudio(audio).toPromise()
             .then((audioBlob) => {
               let audioUrl: SafeUrl = null;
@@ -92,6 +86,7 @@ export class MapLocationModalComponent implements OnInit {
               this.audioData[index] = {audio, url: null};
             });
         });
+
         Promise.all(audioPromises).then(() => {
           this.isLoading = false;
         }).catch(() => {
