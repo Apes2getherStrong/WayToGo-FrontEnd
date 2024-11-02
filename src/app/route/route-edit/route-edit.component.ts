@@ -15,6 +15,7 @@ import {catchError, of} from "rxjs";
 import {MapLocationConflictError} from "../../shared/errors/route-map-location-conflict.error";
 import {SnackbarType} from "../../shared/snackbar/snackbar-type";
 import {ConfirmationDialogService} from "../../shared/confirmation-dialog/confirmation-dialog.service";
+import {SnackbarService} from "../../shared/snackbar/snackbar.service";
 
 @Component({
   selector: 'app-route-edit',
@@ -46,7 +47,8 @@ export class RouteEditComponent implements OnInit, CanComponentDeactivate {
               private router: Router,
               private sanitizer: DomSanitizer,
               private canDeactivateFormGuardService: CanDeactivateFormGuardService,
-              private confirmationDialogService: ConfirmationDialogService,) {
+              private confirmationDialogService: ConfirmationDialogService,
+              private snackbarService: SnackbarService,) {
   }
 
   ngOnInit() {
@@ -110,9 +112,9 @@ export class RouteEditComponent implements OnInit, CanComponentDeactivate {
               .subscribe(() => {
                 this.goBack();
               });
-          } else {
-            this.router.navigate(['yourRoutes', 'list']);
           }
+          this.router.navigate(['yourRoutes', 'list']);
+          this.snackbarService.displaySnackbar('Route was added successfully',SnackbarType.DARK);
         });
     }
   }
@@ -141,6 +143,7 @@ export class RouteEditComponent implements OnInit, CanComponentDeactivate {
             .subscribe(() => {
               this.router.navigate(['../../', 'list'], { relativeTo: this.activatedRoute });
             });
+          this.snackbarService.displaySnackbar('Route was deleted successfully',SnackbarType.DARK);
         }
       });
   }
