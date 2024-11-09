@@ -85,7 +85,7 @@ export class RouteListComponent implements OnInit{
   }
 
   onAddNewRoute() {
-    this.router.navigate(['../', 'new'], {relativeTo: this.activatedRoute})
+    this.router.navigate(['/yourRoutes', 'new']);
   }
 
   onPrevPage() {
