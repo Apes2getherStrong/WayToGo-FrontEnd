@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup, ReactiveFormsModule, Validators } from "@angular/forms";
+import {FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators} from "@angular/forms";
 import { ActivatedRoute, Router } from "@angular/router";
 import { RouteService } from "../route.service";
 import { Route } from "../route.model";
@@ -22,6 +22,7 @@ import {SnackbarService} from "../../shared/snackbar/snackbar.service";
   standalone: true,
   imports: [
     ReactiveFormsModule,
+    FormsModule,
     NgForOf,
     NgIf,
     MapLocationListComponent
@@ -53,7 +54,16 @@ export class RouteEditComponent implements OnInit, CanComponentDeactivate {
   }
 
   ngOnInit() {
+
     console.log("INIT")
+    const hasReloaded = localStorage.getItem('hasReloaded');
+    if (!hasReloaded) {
+      localStorage.setItem('hasReloaded', 'true');
+      window.location.reload();
+    } else {
+      localStorage.removeItem('hasReloaded');
+    }
+
     this.activatedRoute.url.subscribe(urlSegments => {
       this.editMode = !urlSegments.some(segment => segment.path === 'new');
       this.id = this.editMode ? this.activatedRoute.snapshot.params['id'] : null;
