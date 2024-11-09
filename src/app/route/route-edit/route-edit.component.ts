@@ -49,9 +49,11 @@ export class RouteEditComponent implements OnInit, CanComponentDeactivate {
               private canDeactivateFormGuardService: CanDeactivateFormGuardService,
               private confirmationDialogService: ConfirmationDialogService,
               private snackbarService: SnackbarService,) {
+    console.log("CONSTRUCTOR")
   }
 
   ngOnInit() {
+    console.log("INIT")
     this.activatedRoute.url.subscribe(urlSegments => {
       this.editMode = !urlSegments.some(segment => segment.path === 'new');
       this.id = this.editMode ? this.activatedRoute.snapshot.params['id'] : null;
@@ -67,6 +69,7 @@ export class RouteEditComponent implements OnInit, CanComponentDeactivate {
   }
 
   canDeactivate(): Promise<boolean> {
+    console.log("CAN DEACTIVATE")
     if(this.submittingChangesInProcess) {
       return Promise.resolve(true);
     }
@@ -90,6 +93,7 @@ export class RouteEditComponent implements OnInit, CanComponentDeactivate {
   }
 
   onSubmit() {
+    console.log("SUBMITTING")
     this.submittingChangesInProcess = true;
     if (this.editMode) {
       this.routeService.patchRouteById(this.id, this.routeForm.value)
@@ -120,6 +124,7 @@ export class RouteEditComponent implements OnInit, CanComponentDeactivate {
   }
 
   goBack() {
+    console.log("GOING BACK")
     if (this.editMode) {
       this.router.navigate(['../../../yourRoutes/' + this.id], { relativeTo: this.activatedRoute });
     } else {
