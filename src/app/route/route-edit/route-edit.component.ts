@@ -200,4 +200,8 @@ export class RouteEditComponent implements OnInit, CanComponentDeactivate {
         });
     }
   }
+
+  onFocus(event: Event): void {
+    event.preventDefault();
+  }
 }
