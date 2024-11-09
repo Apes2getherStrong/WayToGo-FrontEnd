@@ -82,7 +82,6 @@ export class RouteListComponent implements OnInit{
 
   updatePageSize() {
     this.pageSize = this.isMobileVersion ? defaultPageSize / 2 : defaultPageSize;
-    console.log(this.pageSize)
   }
 
   onAddNewRoute() {
