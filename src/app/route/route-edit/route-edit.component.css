@@ -1,0 +1,4 @@
+input[type="text"], textarea {
+  -webkit-user-select: auto;
+  user-select: auto;
+}
