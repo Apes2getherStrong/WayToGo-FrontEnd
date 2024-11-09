@@ -40,12 +40,6 @@ const routes: Routes = [
     canDeactivate: [CanDeactivateGuard]
   },
   {
-    path: 'routes/new',
-    canActivate: [AuthGuardService],
-    component: RouteEditComponent,
-    canDeactivate: [CanDeactivateGuard]
-  },
-  {
     path: 'yourRoutes/new',
     canActivate: [AuthGuardService],
     component: RouteEditComponent,
