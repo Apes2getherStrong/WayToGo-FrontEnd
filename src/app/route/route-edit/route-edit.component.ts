@@ -122,7 +122,7 @@ export class RouteEditComponent implements OnInit, CanComponentDeactivate {
               });
           }
           this.router.navigate(['yourRoutes', 'list']);
-          this.snackbarService.displaySnackbar('Route was added successfully',SnackbarType.DARK);
+          this.snackbarService.displaySnackbar('Route was added successfully',SnackbarType.SUCCESS);
         });
     }
   }
@@ -151,7 +151,7 @@ export class RouteEditComponent implements OnInit, CanComponentDeactivate {
             .subscribe(() => {
               this.router.navigate(['../../', 'list'], { relativeTo: this.activatedRoute });
             });
-          this.snackbarService.displaySnackbar('Route was deleted successfully',SnackbarType.DARK);
+          this.snackbarService.displaySnackbar('Route was deleted successfully',SnackbarType.SUCCESS);
         }
       });
   }

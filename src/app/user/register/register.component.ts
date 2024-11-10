@@ -29,7 +29,7 @@ export class RegisterComponent {
 
   onSubmit() {
     if (this.password !== this.confirmPassword) {
-      this.snackbarService.displaySnackbar('Passwords do not match',SnackbarType.DARK);
+      this.snackbarService.displaySnackbar('Passwords do not match',SnackbarType.DANGER);
       return;
     }
 
@@ -41,11 +41,11 @@ export class RegisterComponent {
 
     this.authService.register(user).subscribe({
       next: response => {
-        this.snackbarService.displaySnackbar('Your registration was successful!',SnackbarType.DARK);
+        this.snackbarService.displaySnackbar('Your registration was successful!',SnackbarType.SUCCESS);
         this.router.navigate(['/log-in']);
       },
       error: err => {
-        this.snackbarService.displaySnackbar('Username already exist',SnackbarType.DARK);
+        this.snackbarService.displaySnackbar('Username already exist',SnackbarType.DANGER);
       }
     });
   }

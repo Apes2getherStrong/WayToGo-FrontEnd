@@ -214,7 +214,7 @@ export class MapLocationEditComponent implements OnInit, CanComponentDeactivate 
                 this.goBack();
               });
           }
-          this.snackbarService.displaySnackbar('Map location was added successfully',SnackbarType.DARK);
+          this.snackbarService.displaySnackbar('Map location was added successfully',SnackbarType.SUCCESS);
           this.uploadTemporaryAudios(response);
         });
     }
