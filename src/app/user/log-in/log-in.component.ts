@@ -31,7 +31,7 @@ export class LogInComponent {
         this.router.navigate(['/']);
       },
       error: err => {
-        this.snackbarService.displaySnackbar("Wrong username or password", SnackbarType.DARK);
+        this.snackbarService.displaySnackbar("Wrong username or password", SnackbarType.DANGER);
       }
     });
   }
