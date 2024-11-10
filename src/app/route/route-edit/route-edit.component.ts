@@ -5,14 +5,12 @@ import { RouteService } from "../route.service";
 import { Route } from "../route.model";
 import { MapLocation } from "../../map-location/map-location.model";
 import { MapLocationService } from "../../map-location/map-location.service";
-import { Location, NgForOf, NgIf } from "@angular/common";
+import { NgForOf, NgIf } from "@angular/common";
 import { maxPageSize } from "../../shared/http.config";
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 import {MapLocationListComponent} from "../../map-location/map-location-list/map-location-list.component";
 import {CanComponentDeactivate} from "../../shared/guards/can-deactivate-guard.service";
 import {CanDeactivateFormGuardService} from "../../shared/guards/can-deactivate-form-guard.service";
-import {catchError, of} from "rxjs";
-import {MapLocationConflictError} from "../../shared/errors/route-map-location-conflict.error";
 import {SnackbarType} from "../../shared/snackbar/snackbar-type";
 import {ConfirmationDialogService} from "../../shared/confirmation-dialog/confirmation-dialog.service";
 import {SnackbarService} from "../../shared/snackbar/snackbar.service";
@@ -50,12 +48,10 @@ export class RouteEditComponent implements OnInit, CanComponentDeactivate {
               private canDeactivateFormGuardService: CanDeactivateFormGuardService,
               private confirmationDialogService: ConfirmationDialogService,
               private snackbarService: SnackbarService,) {
-    console.log("CONSTRUCTOR")
   }
 
   ngOnInit() {
-
-    console.log("INIT")
+    //refreshing solves weird problem on mobile devices with clicking input
     const hasReloaded = localStorage.getItem('hasReloaded');
     if (!hasReloaded) {
       localStorage.setItem('hasReloaded', 'true');
@@ -79,7 +75,6 @@ export class RouteEditComponent implements OnInit, CanComponentDeactivate {
   }
 
   canDeactivate(): Promise<boolean> {
-    console.log("CAN DEACTIVATE")
     if(this.submittingChangesInProcess) {
       return Promise.resolve(true);
     }
@@ -103,7 +98,6 @@ export class RouteEditComponent implements OnInit, CanComponentDeactivate {
   }
 
   onSubmit() {
-    console.log("SUBMITTING")
     this.submittingChangesInProcess = true;
     if (this.editMode) {
       this.routeService.patchRouteById(this.id, this.routeForm.value)
@@ -134,7 +128,6 @@ export class RouteEditComponent implements OnInit, CanComponentDeactivate {
   }
 
   goBack() {
-    console.log("GOING BACK")
     if (this.editMode) {
       this.router.navigate(['../../../yourRoutes/' + this.id], { relativeTo: this.activatedRoute });
     } else {
@@ -209,9 +202,5 @@ export class RouteEditComponent implements OnInit, CanComponentDeactivate {
           });
         });
     }
-  }
-
-  onFocus(event: Event): void {
-    event.preventDefault();
   }
 }

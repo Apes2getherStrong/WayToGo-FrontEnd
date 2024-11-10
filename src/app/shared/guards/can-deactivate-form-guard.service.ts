@@ -9,7 +9,7 @@ export class CanDeactivateFormGuardService {
   constructor(private confirmationDialogService: ConfirmationDialogService) {}
 
   canDeactivateForm(isDirty: boolean):Promise<boolean> {
-    /*if (isDirty) {
+    if (isDirty) {
       return new Promise((resolve) => {
         this.confirmationDialogService
           .confirm(
@@ -24,19 +24,6 @@ export class CanDeactivateFormGuardService {
       });
     } else {
       return Promise.resolve(true);
-    }*/
-
-    return new Promise((resolve) => {
-      this.confirmationDialogService
-        .confirm(
-          'Confirm Exiting',
-          `You are about to exit without saving the changes. Do you want to proceed?`,
-          'Yes',
-          'Cancel'
-        )
-        .subscribe((confirmed: boolean) => {
-          resolve(confirmed);
-        });
-    });
+    }
   }
 }
