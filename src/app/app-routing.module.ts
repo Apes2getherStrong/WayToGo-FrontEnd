@@ -1,106 +1,92 @@
-import {NgModule} from '@angular/core';
-import {RouterModule, Routes} from '@angular/router';
-import {LogInComponent} from "./user/log-in/log-in.component";
-import {UserProfileComponent} from "./user/user-profile/user-profile.component";
-import {RoutesComponent} from "./route/routes/routes.component";
-import {RouteDetailComponent} from "./route/route-detail/route-detail.component";
-import {RouteEditComponent} from "./route/route-edit/route-edit.component";
-import {RouteInfoComponent} from "./route/route-info/route-info.component";
-import {RouteListComponent} from "./route/route-list/route-list.component";
-import {RegisterComponent} from "./user/register/register.component";
-import {MapLocationEditComponent} from "./map-location/map-location-edit/map-location-edit.component";
-import {AuthGuardService} from "./auth/auth-guard.service";
-import {CanEditService} from "./auth/can-edit.service";
-import {CanDeactivateGuard} from "./shared/guards/can-deactivate-guard.service";
-import {VicinityComponent} from "./vicinity/vicinity.component";
-
-
-
+import { NgModule } from '@angular/core';
+import { RouterModule, Routes } from '@angular/router';
+import { AuthGuardService } from "./auth/auth-guard.service";
+import { CanEditService } from "./auth/can-edit.service";
+import { CanDeactivateGuard } from "./shared/guards/can-deactivate-guard.service";
 
 const routes: Routes = [
   {
     path: 'log-in',
-    component: LogInComponent,
+    loadComponent: () => import('./user/log-in/log-in.component').then(m => m.LogInComponent),
   },
   {
     path: 'register',
-    component: RegisterComponent,
+    loadComponent: () => import('./user/register/register.component').then(m => m.RegisterComponent),
   },
-
   {
     path: 'point/new/:routeId',
     canActivate: [AuthGuardService],
-    component: MapLocationEditComponent,
+    loadComponent: () => import('./map-location/map-location-edit/map-location-edit.component').then(m => m.MapLocationEditComponent),
     canDeactivate: [CanDeactivateGuard]
   },
   {
     path: 'point/:pointId/edit',
     canActivate: [AuthGuardService],
-    component: MapLocationEditComponent,
+    loadComponent: () => import('./map-location/map-location-edit/map-location-edit.component').then(m => m.MapLocationEditComponent),
     canDeactivate: [CanDeactivateGuard]
   },
   {
     path: 'yourRoutes/new',
     canActivate: [AuthGuardService],
-    component: RouteEditComponent,
+    loadComponent: () => import('./route/route-edit/route-edit.component').then(m => m.RouteEditComponent),
     canDeactivate: [CanDeactivateGuard]
   },
   {
     path: 'users/:id',
     canActivate: [AuthGuardService],
-    component: UserProfileComponent,
+    loadComponent: () => import('./user/user-profile/user-profile.component').then(m => m.UserProfileComponent),
   },
   {
     path: 'routes',
     canActivate: [AuthGuardService],
-    component: RoutesComponent,
+    loadComponent: () => import('./route/routes/routes.component').then(m => m.RoutesComponent),
     children: [
       {
         path: 'list',
-        component: RouteListComponent,
+        loadComponent: () => import('./route/route-list/route-list.component').then(m => m.RouteListComponent),
         children: [
           {
             path: ':id',
-            component: RouteInfoComponent
+            loadComponent: () => import('./route/route-info/route-info.component').then(m => m.RouteInfoComponent),
           }
         ]
       },
       {
         path: 'vicinity',
-        component: VicinityComponent
+        loadComponent: () => import('./vicinity/vicinity.component').then(m => m.VicinityComponent),
       },
       {
         path: ':id',
-        component: RouteDetailComponent
+        loadComponent: () => import('./route/route-detail/route-detail.component').then(m => m.RouteDetailComponent),
       },
     ]
   },
   {
     path: 'yourRoutes',
     canActivate: [AuthGuardService],
-    component: RoutesComponent,
+    loadComponent: () => import('./route/routes/routes.component').then(m => m.RoutesComponent),
     children: [
       {
         path: 'list',
-        component: RouteListComponent,
+        loadComponent: () => import('./route/route-list/route-list.component').then(m => m.RouteListComponent),
         children: [
           {
             path: ':id',
-            component: RouteInfoComponent
+            loadComponent: () => import('./route/route-info/route-info.component').then(m => m.RouteInfoComponent),
           }
         ]
       },
       {
         path: ':id',
-        component: RouteDetailComponent
+        loadComponent: () => import('./route/route-detail/route-detail.component').then(m => m.RouteDetailComponent),
       }
     ]
   },
   {
     path: 'yourRoutes/:id/edit',
-    canActivate: [AuthGuardService,CanEditService],
+    canActivate: [AuthGuardService, CanEditService],
     canDeactivate: [CanDeactivateGuard],
-    component: RouteEditComponent
+    loadComponent: () => import('./route/route-edit/route-edit.component').then(m => m.RouteEditComponent),
   },
   {
     path: '',
@@ -112,5 +98,4 @@ const routes: Routes = [
   imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule]
 })
-export class AppRoutingModule {
-}
+export class AppRoutingModule {}
